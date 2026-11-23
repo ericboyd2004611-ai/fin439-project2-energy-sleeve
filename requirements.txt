@@ -1,0 +1,3 @@
+# portfolio.py, analysis.py, changed_input.py and the tests use only the Python standard library (3.10+).
+# Only the interactive app needs Streamlit. Tested with Streamlit 1.67.0 on Python 3.13.
+streamlit==1.67.0

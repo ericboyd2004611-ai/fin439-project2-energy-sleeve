@@ -1,0 +1,13 @@
+item,required,location_or_url,title,duration_or_as_of,timestamp_index,access_checked,frozen_or_commit_id,notes
+Research-Evolution.pdf,yes,submission/Research-Evolution.pdf (+ docs/research-evolution.pdf),Research Evolution - Energy Satellite Sleeve,as of 2026-09-30,,,,"Edition A pages first (unchanged), then Edition B; fill A column of change table"
+Repository,yes,https://github.com/<your-username>/<repo-name>,FIN439 Project 2 - Energy Satellite Sleeve,,,,,"Private: add instructional-team GitHub ID from assignment page; test logged-out"
+Visible executed output,yes,output/visible-output.md (+ output/results.json),Energy Satellite Sleeve - Visible Executed Output,data as of 2026-09-30,,,,Decision PILOT; shows inputs/as-of/mandate checks
+Decision memo or deck,yes,submission/Decision-Memo.pdf (+ docs/decision-memo.pdf),Investment Committee Memo - Energy Satellite Sleeve,as of 2026-09-30,,,,2 pages
+Validation-and-AI-Use.pdf,yes,submission/Validation-and-AI-Use.pdf (+ docs/validation-and-ai-use.md),Validation and AI-Use Record,as of 2026-09-30,,,,Must include completed Locked Changed-Input Record (section 10)
+Video 1,yes,https://youtu.be/<id>,FIN439 Project 2 - Video 1 - Research Evolution and AI Check - Eric Boyd,<=3:00,"Edition A 0:00; change+driver 0:20; AI-output check 1:00; 2nd AI check 1:50; sufficiency 2:20",,,Unlisted; replace times with actual
+Transcript Video 1,yes,docs/transcript-video-1.txt,,,,,,Corrected YouTube captions of actual recording
+Video 2,yes,https://youtu.be/<id>,FIN439 Project 2 - Video 2 - Codebase Walkthrough - Eric Boyd,<=5:00,"architecture 0:00; data 0:25; cap logic 1:30; decision rule 2:40; tests 3:05; changed-input 3:35; reproduce 4:15; failure mode 4:45",,,Unlisted; replace times with actual
+Transcript Video 2,yes,docs/transcript-video-2.txt,,,,,,Corrected YouTube captions of actual recording
+Video 3,yes,https://youtu.be/<id>,FIN439 Project 2 - Video 3 - Investment Committee: Energy Sleeve Pilot - Eric Boyd,<=5:00,"decision+ask 0:00; vs adopt 0:30; vs reject 1:15; range 1:50; risks 2:40; triggers 3:30; ask 4:30",,,Unlisted; replace times with actual
+Transcript Video 3,yes,docs/transcript-video-3.txt,,,,,,Corrected YouTube captions of actual recording
+Optional deployed output,no,,,,,,,Not deployed; local run only

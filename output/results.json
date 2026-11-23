@@ -1,0 +1,602 @@
+{
+  "data": {
+    "file": "data/prices.csv",
+    "sha256": "c7c39b97894fe0cfa4074cfbbbd68de0edb84fb6d983a884fff3d7c6a784313e",
+    "tickers": [
+      "XLE",
+      "XOP",
+      "AMLP",
+      "ICLN",
+      "NLR"
+    ],
+    "price_months": [
+      "2021-09",
+      "2026-09"
+    ],
+    "monthly_returns": 60,
+    "return_months": [
+      "2021-10",
+      "2026-09"
+    ],
+    "as_of": "2026-09-30 (last complete month-end in the file)",
+    "source": "Yahoo Finance monthly Adj Close, downloaded 2026-10-22 (see data/DATA-SOURCE.md)"
+  },
+  "mandate": {
+    "objective_return": 0.08,
+    "max_weight": 0.4,
+    "long_only": true,
+    "grid_step": 0.05,
+    "rebalance_months": 12,
+    "cost_bps_one_way": 10
+  },
+  "estimates_60m": {
+    "return_standard_errors": {
+      "XLE": 0.1164,
+      "XOP": 0.1346,
+      "AMLP": 0.0825,
+      "ICLN": 0.1291,
+      "NLR": 0.13
+    },
+    "returns": {
+      "XLE": 0.2413,
+      "XOP": 0.1926,
+      "AMLP": 0.1861,
+      "ICLN": 0.0059,
+      "NLR": 0.1994
+    },
+    "volatilities": {
+      "XLE": 0.2602,
+      "XOP": 0.3009,
+      "AMLP": 0.1844,
+      "ICLN": 0.2888,
+      "NLR": 0.2906
+    },
+    "correlation": [
+      [
+        1.0,
+        0.9277,
+        0.819,
+        0.1652,
+        0.2417
+      ],
+      [
+        0.9277,
+        1.0,
+        0.7904,
+        0.2115,
+        0.2513
+      ],
+      [
+        0.819,
+        0.7904,
+        1.0,
+        0.1197,
+        0.2473
+      ],
+      [
+        0.1652,
+        0.2115,
+        0.1197,
+        1.0,
+        0.4376
+      ],
+      [
+        0.2417,
+        0.2513,
+        0.2473,
+        0.4376,
+        1.0
+      ]
+    ]
+  },
+  "recommended_60m": {
+    "weights": {
+      "XLE": 0.15,
+      "XOP": 0.0,
+      "AMLP": 0.4,
+      "ICLN": 0.25,
+      "NLR": 0.2
+    },
+    "expected_return": 0.15198581097695804,
+    "volatility": 0.17138329677757605,
+    "eligible_mixes": 3951,
+    "mandate": {
+      "weights sum to 100%": true,
+      "long-only (no weight below 0)": true,
+      "no fund above 40%": true,
+      "expected return at least 8.0%": true
+    }
+  },
+  "uncapped_60m": {
+    "weights": {
+      "XLE": 0.0,
+      "XOP": 0.0,
+      "AMLP": 0.7,
+      "ICLN": 0.2,
+      "NLR": 0.1
+    },
+    "expected_return": 0.1514117046861963,
+    "volatility": 0.16112269346746894,
+    "mandate_passes": false
+  },
+  "baselines_60m": {
+    "equal_weight": {
+      "expected_return": 0.16504288456079463,
+      "volatility": 0.19252675904596073
+    },
+    "XLE_only": {
+      "expected_return": 0.24126125240781676,
+      "volatility": 0.2602345563686204
+    }
+  },
+  "window_sensitivity": {
+    "all 60 months": {
+      "weights": {
+        "XLE": 0.15,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "expected_return": 0.15198581097695804,
+      "volatility": 0.17138329677757605
+    },
+    "last 36 months": {
+      "weights": {
+        "XLE": 0.3,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.3,
+        "NLR": 0.0
+      },
+      "expected_return": 0.1411996771483791,
+      "volatility": 0.1317101901782984
+    },
+    "first 24 months": {
+      "weights": {
+        "XLE": 0.0,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.2,
+        "NLR": 0.4
+      },
+      "expected_return": 0.13465373568439276,
+      "volatility": 0.18167467798140124
+    }
+  },
+  "holdout": {
+    "estimation_months": [
+      "2021-10",
+      "2023-09"
+    ],
+    "test_months": [
+      "2023-10",
+      "2026-09"
+    ],
+    "chosen_weights": {
+      "XLE": 0.0,
+      "XOP": 0.0,
+      "AMLP": 0.4,
+      "ICLN": 0.2,
+      "NLR": 0.4
+    },
+    "performance_net_10bps": {
+      "strategy": {
+        "annual_return": 0.15861368738918968,
+        "annual_volatility": 0.18545440304195576,
+        "max_drawdown": -0.15021711416476413,
+        "worst_month": -0.09709799487319748,
+        "ending_value_per_dollar": 1.5553064186704173,
+        "turnover": 1.26131830541136
+      },
+      "equal_weight": {
+        "annual_return": 0.14114430656793764,
+        "annual_volatility": 0.15971280947847222,
+        "max_drawdown": -0.12875711230874676,
+        "worst_month": -0.09218893758859592,
+        "ending_value_per_dollar": 1.486009902221797,
+        "turnover": 1.2661331330546821
+      },
+      "XLE_only": {
+        "annual_return": 0.1432850279146367,
+        "annual_volatility": 0.20488770578974885,
+        "max_drawdown": -0.14363522286843244,
+        "worst_month": -0.1385754378740337,
+        "ending_value_per_dollar": 1.4943886089003915,
+        "turnover": 1.0
+      }
+    },
+    "cost_sensitivity": {
+      "0": 0.1591011188124325,
+      "10": 0.15861368738918968,
+      "25": 0.15788216618291306,
+      "50": 0.1566619636625306
+    },
+    "in_sample_60m_mix_NOT_evidence": {
+      "annual_return": 0.1451479197156993,
+      "annual_volatility": 0.17260874250080663,
+      "max_drawdown": -0.11751475590720994,
+      "worst_month": -0.11751475590720994,
+      "ending_value_per_dollar": 1.9692821410471268
+    }
+  },
+  "robustness": {
+    "grid_2.5pt": {
+      "weights": {
+        "XLE": 0.15,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.275,
+        "NLR": 0.175
+      },
+      "volatility": 0.17133435828021934,
+      "expected_return": 0.14714810500903136
+    },
+    "objective_sweep": {
+      "first_objective_that_changes_mix": 0.15500000000000005,
+      "max_feasible_return_under_cap": 0.21476713790904456,
+      "rows": [
+        {
+          "objective": 0.08,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.085,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.09,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.095,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.1,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.105,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.11,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.115,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.12,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.125,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.13,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.135,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.14,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.145,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.15,
+          "weights": [
+            0.15,
+            0.0,
+            0.4,
+            0.25,
+            0.2
+          ],
+          "volatility": 0.17138329677757605
+        },
+        {
+          "objective": 0.155,
+          "weights": [
+            0.2,
+            0.0,
+            0.4,
+            0.2,
+            0.2
+          ],
+          "volatility": 0.1723128138535362
+        },
+        {
+          "objective": 0.16,
+          "weights": [
+            0.2,
+            0.0,
+            0.4,
+            0.2,
+            0.2
+          ],
+          "volatility": 0.1723128138535362
+        },
+        {
+          "objective": 0.165,
+          "weights": [
+            0.25,
+            0.0,
+            0.4,
+            0.2,
+            0.15
+          ],
+          "volatility": 0.17378657299482542
+        },
+        {
+          "objective": 0.17,
+          "weights": [
+            0.2,
+            0.0,
+            0.4,
+            0.15,
+            0.25
+          ],
+          "volatility": 0.17418932132951023
+        },
+        {
+          "objective": 0.175,
+          "weights": [
+            0.25,
+            0.0,
+            0.4,
+            0.15,
+            0.2
+          ],
+          "volatility": 0.17505025226636522
+        },
+        {
+          "objective": 0.18,
+          "weights": [
+            0.2,
+            0.0,
+            0.4,
+            0.1,
+            0.3
+          ],
+          "volatility": 0.1773814280848511
+        },
+        {
+          "objective": 0.185,
+          "weights": [
+            0.25,
+            0.0,
+            0.4,
+            0.1,
+            0.25
+          ],
+          "volatility": 0.17763852679197809
+        },
+        {
+          "objective": 0.19,
+          "weights": [
+            0.25,
+            0.0,
+            0.4,
+            0.05,
+            0.3
+          ],
+          "volatility": 0.18149473573689243
+        },
+        {
+          "objective": 0.195,
+          "weights": [
+            0.3,
+            0.0,
+            0.4,
+            0.05,
+            0.25
+          ],
+          "volatility": 0.1827577257820727
+        },
+        {
+          "objective": 0.2,
+          "weights": [
+            0.25,
+            0.0,
+            0.4,
+            0.0,
+            0.35
+          ],
+          "volatility": 0.18654026245467328
+        },
+        {
+          "objective": 0.205,
+          "weights": [
+            0.3,
+            0.0,
+            0.4,
+            0.0,
+            0.3
+          ],
+          "volatility": 0.1872108991688508
+        },
+        {
+          "objective": 0.21,
+          "weights": [
+            0.35,
+            0.0,
+            0.3,
+            0.0,
+            0.35
+          ],
+          "volatility": 0.19293467641473605
+        }
+      ]
+    },
+    "return_haircut_breakeven": {
+      "any_capped_mix": 0.13476713790904454,
+      "recommended_mix": 0.07198581097695804
+    },
+    "oil_correlation_0.95": {
+      "recommended_mix_volatility": 0.17356995039400033,
+      "reoptimized_weights": {
+        "XLE": 0.15,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "reoptimized_volatility": 0.17356995039400033
+    },
+    "bootstrap": {
+      "draws": 200,
+      "seed": 43900,
+      "feasible_draws": 190,
+      "share_identical_to_recommended": 0.08421052631578947,
+      "weight_range_p10_median_p90": {
+        "XLE": {
+          "p10": 0.05,
+          "median": 0.15000000000000002,
+          "p90": 0.25
+        },
+        "XOP": {
+          "p10": 0.0,
+          "median": 0.0,
+          "p90": 0.0
+        },
+        "AMLP": {
+          "p10": 0.4,
+          "median": 0.4,
+          "p90": 0.4
+        },
+        "ICLN": {
+          "p10": 0.15000000000000002,
+          "median": 0.25,
+          "p90": 0.35000000000000003
+        },
+        "NLR": {
+          "p10": 0.1,
+          "median": 0.2,
+          "p90": 0.30000000000000004
+        }
+      }
+    }
+  },
+  "decision_conditions": {
+    "mandate passes (full sample)": true,
+    "holdout net return >= objective": true,
+    "holdout volatility <= equal weight": false,
+    "holdout max drawdown no worse than equal weight": false
+  },
+  "decision": {
+    "action": "PILOT",
+    "reasons": [
+      "mandate passes (full sample): PASS",
+      "holdout net return >= objective: PASS",
+      "holdout volatility <= equal weight: FAIL",
+      "holdout max drawdown no worse than equal weight: FAIL"
+    ]
+  }
+}

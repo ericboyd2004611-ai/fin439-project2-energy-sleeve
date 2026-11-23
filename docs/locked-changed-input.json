@@ -1,0 +1,6 @@
+{
+  "input": "max_weight",
+  "old": 0.40,
+  "new": 0.30,
+  "units": "decimal share of the sleeve (0.40 = 40%)"
+}
