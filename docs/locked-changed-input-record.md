@@ -75,7 +75,7 @@ Equal-weight holdout for comparison (unchanged by the cap): volatility 15.97%, m
 
 | Item | Prediction vs. Actual | Assessment |
 |---|---|---|
-| 1. Portfolio Weights | Predicted AMLP would decrease to 30%, with XLE or other funds gaining weight. AMLP dropped 10% and XLE gained the full 10%. All other weights stayed the same. | Matched |
+| 1. Portfolio Weights | Predicted AMLP would decrease to 30%, with XLE or other funds gaining weight. AMLP dropped 10% and XLE gained the full 10%. All other weights stayed the same. | Partly Matched |
 | 2. Expected Return & Volatility | Predicted both would increase slightly. Expected return increased from 15.20% to 15.75%, and volatility increased from 17.14% to 17.71%. | Matched |
 | 3. Mandate & Holdout | Predicted the mandate would still pass and holdout returns might increase. The mandate passed, but holdout return decreased from 15.86% to 14.72%. | Partly matched |
 | 4. Decision | Predicted PILOT would remain PILOT. The actual decision stayed PILOT. | Matched |
