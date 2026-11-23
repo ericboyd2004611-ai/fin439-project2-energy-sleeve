@@ -18,13 +18,31 @@ JOBS = [("docs/decision-memo.md", "Decision-Memo.pdf", "decision-memo.pdf"),
         ("output/visible-output.md", "Visible-Output.pdf", None)]
 
 
+LOCKED_MARKER = "[Paste the completed `docs/locked-changed-input-record.md` here"
+
+
+def source_text(src):
+    """Validation record: insert the Locked Changed-Input Record into section 10 so they always match."""
+    text = (ROOT / src).read_text()
+    if src.endswith("validation-and-ai-use.md") and LOCKED_MARKER in text:
+        record = (ROOT / "docs" / "locked-changed-input-record.md").read_text()
+        record = "\n".join(l for l in record.splitlines() if not l.startswith("# "))
+        record = record.replace("\n## ", "\n### ")
+        start = text.index(LOCKED_MARKER)
+        end = text.index("]", text.index("reconciliation and diagnosis", start)) + 1
+        text = text[:start] + "Full record from `docs/locked-changed-input-record.md` (inserted at PDF build):\n" + record + text[end:]
+    return text
+
+
 def main():
     with tempfile.TemporaryDirectory() as tmp:
         css = Path(tmp) / "style.css"
         css.write_text(CSS)
         for src, out, docs_copy in JOBS:
             html = Path(tmp) / "page.html"
-            subprocess.run(["pandoc", str(ROOT / src), "-s", "--metadata", f"title={Path(src).stem}",
+            md = Path(tmp) / "page.md"
+            md.write_text(source_text(src))
+            subprocess.run(["pandoc", str(md), "-s", "--metadata", f"title={Path(src).stem}",
                             "-V", "title=", "--css", str(css), "--embed-resources", "-o", str(html)], check=True)
             pdf = ROOT / "submission" / out
             subprocess.run(["wkhtmltopdf", "--quiet", "--enable-local-file-access", "-s", "Letter",

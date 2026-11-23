@@ -1,6 +1,6 @@
 # Locked Changed-Input Record
 
-**Course rule:** the prediction below must be written by the student, **with AI off, before the run**. The run itself is AI-closed. Claude prepared this template and the runner (`changed_input.py`) but did **not** write or see the prediction.
+**Course rule:** the prediction below must be written by the student, **with AI off, before the run**. The run itself is AI-closed. Claude prepared this template and the runner (`changed_input.py`). Claude did **not** write the prediction and did not see it before the run.
 
 ## Step 1 — the input you will change (also set in `docs/locked-changed-input.json`)
 
@@ -72,16 +72,18 @@ Equal-weight holdout for comparison (unchanged by the cap): volatility 15.97%, m
 
 ## Step 6 — reconciliation and diagnosis (your words)
 
-Item	Prediction vs. Actual	Assessment
-1. Portfolio Weights	Predicted AMLP would decrease to 30%, with XLE or other funds gaining weight. AMLP dropped 10% and XLE gained the full 10%. All other weights stayed the same.	Matched
-2. Expected Return & Volatility	Predicted both would increase slightly. Expected return increased from 15.20% to 15.75%, and volatility increased from 17.14% to 17.71%.	Matched
-3. Mandate & Holdout	Predicted the mandate would still pass and holdout returns might increase. The mandate passed, but holdout return decreased from 15.86% to 14.72%.	Partly matched
-4. Decision	Predicted PILOT would remain PILOT. The actual decision stayed PILOT.	Matched
-## Actual Decision Effect
+
+| Item | Prediction vs. Actual | Assessment |
+|---|---|---|
+| 1. Portfolio Weights | Predicted AMLP would decrease to 30%, with XLE or other funds gaining weight. AMLP dropped 10% and XLE gained the full 10%. All other weights stayed the same. | Matched |
+| 2. Expected Return & Volatility | Predicted both would increase slightly. Expected return increased from 15.20% to 15.75%, and volatility increased from 17.14% to 17.71%. | Matched |
+| 3. Mandate & Holdout | Predicted the mandate would still pass and holdout returns might increase. The mandate passed, but holdout return decreased from 15.86% to 14.72%. | Partly matched |
+| 4. Decision | Predicted PILOT would remain PILOT. The actual decision stayed PILOT. | Matched |
+
+### Actual decision effect
 The decision remained PILOT after reducing the maximum weight from 40% to 30%. The portfolio still passes the mandate, but the holdout return decreased by 1.14 percentage points.
-## Why Results Differed
+### Why results differed
 The higher expected return did not translate into better holdout performance. Moving 10% from AMLP to XLE increased estimated return and volatility, but actual holdout volatility decreased from 18.55% to 17.45%. This difference occurred because historical performance and correlations during the holdout period can differ from the estimates used in the model.
-## Committee Recommendation 
+### Committee recommendation
 I recommend keeping the **PILOT** decision. The tighter 30% cap reduces concentration in AMLP while maintaining compliance with the mandate. Although expected return increased, holdout return decreased, showing that higher projected returns do not guarantee better performance. However, lower holdout volatility and a smaller maximum drawdown suggest improved downside risk during the test period. The committee should continue monitoring performance before approving a larger allocation.
 
-Then commit the filled-in record and `output/changed-input-result.json`, and copy this section into `docs/validation-and-ai-use.md` before making the PDF.
