@@ -15,12 +15,25 @@ If you choose a different input, edit both this table and the JSON before you co
 
 ## Step 2 — your prediction (AI off, before running)
 
-[WRITE YOUR PREDICTION HERE — replace this whole bracket. In your own words, answer each item:
- 1. Expected direction of the weights: which funds gain and which lose, and roughly how much?
- 2. Expected direction of the portfolio's expected return and volatility, and why, in finance terms.
- 3. Will the mandate still pass? Will the holdout return go up or down?
- 4. Expected decision effect: does PILOT stay PILOT? What would make it change?
- 5. Date and time you wrote this.]
+1. Expected direction of the weights
+
+AMLP should decrease from 40% to 30%. The freed-up 10% will likely shift toward XLE and NLR because they have relatively strong expected returns. XOP may also gain some weight, while ICLN will likely remain unchanged or decrease because of its low expected return.
+
+2. Expected return and volatility
+
+The portfolio's expected return will likely increase slightly because AMLP's weight is being redistributed toward funds with higher expected returns, especially XLE and NLR. However, volatility will likely increase because AMLP has the lowest volatility (18.4%), while the other funds are riskier. The portfolio may lose some diversification benefits.
+
+3. Mandate and holdout return
+
+The portfolio may still pass the mandate, but this depends on the updated return and risk calculations. The holdout return is uncertain because it depends on actual performance during the holdout period, not just estimated returns. I would expect a potentially higher return but also greater risk.
+
+4. Expected decision effect
+
+I expect the decision to remain PILOT because the portfolio still has exposure to multiple energy sectors. However, if the tighter cap causes volatility to exceed the mandate's limit or holdout performance to weaken significantly, the decision could change. A stronger holdout result with acceptable risk could support a more favorable decision.
+
+5. Date and time
+
+November 23, 2026, at 4:35 PM EST.
 
 ## Step 3 — lock it
 
