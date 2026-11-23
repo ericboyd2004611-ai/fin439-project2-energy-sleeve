@@ -170,7 +170,8 @@ def mandate_check(weights, returns, objective=OBJECTIVE_RETURN, max_weight=MAX_W
         f"no fund above {max_weight:.0%}": max(weights) <= max_weight + TOLERANCE,
         f"expected return at least {objective:.1%}": expected >= objective - TOLERANCE,
     }
-    return {"checks": checks, "passes": all(checks.values())}
+    return {"checks": checks, "passes": all(checks.values()),
+            "failed_rules": [rule for rule, ok in checks.items() if not ok]}
 
 
 def long_only_mixes(n_assets, step=STEP, max_weight=1.0):
@@ -228,7 +229,41 @@ def max_feasible_return(returns, max_weight=MAX_WEIGHT):
 
 
 def equal_weights(n):
+    """Baseline 1 and the mandate benchmark: the same weight in every fund."""
     return [1.0 / n] * n
+
+
+def inverse_volatility_weights(vols):
+    """Baseline 2 (transparent, from Lab 14): each weight proportional to 1 / volatility."""
+    inverse = [1.0 / v for v in vols]
+    total = math.fsum(inverse)
+    return [x / total for x in inverse]
+
+
+# ---------------------------------------------------------------------------
+# Point-in-time signal: trailing 12-month realized volatility of the target mix
+# ---------------------------------------------------------------------------
+SIGNAL_MONTHS = 12          # look-back window, monthly returns
+SIGNAL_THRESHOLD = 0.25     # annualized; at or above this the process pauses for review
+
+
+def risk_signal(dates, prices, weights, as_of, months=SIGNAL_MONTHS):
+    """Trailing realized volatility of a fixed-weight mix, as known at the `as_of` month-end.
+
+    Point-in-time rule: only price rows dated on or before `as_of` are used, so a value
+    can never depend on a later month. Each month-end close is known that evening, and
+    the signal is used for the NEXT month's decision (no same-day trading on it).
+    Returns None when fewer than `months` returns are available by `as_of`.
+    """
+    rows = [p for d, p in zip(dates, prices) if d <= as_of]
+    if len(rows) < months + 1:
+        return None
+    rets = monthly_returns(rows)[-months:]
+    mix = [math.fsum(w * r for w, r in zip(weights, row)) for row in rets]
+    return {"as_of": max(d for d in dates if d <= as_of), "months": months,
+            "annual_volatility": _stdev(mix) * math.sqrt(12),
+            "trailing_return": math.prod(1 + x for x in mix) - 1,
+            "status": "REVIEW" if _stdev(mix) * math.sqrt(12) >= SIGNAL_THRESHOLD else "OK"}
 
 
 # ---------------------------------------------------------------------------

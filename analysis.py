@@ -68,7 +68,9 @@ def main():
             "as_of": "2026-09-30 (last complete month-end in the file)",
             "source": "Yahoo Finance monthly Adj Close, downloaded 2026-10-22 (see data/DATA-SOURCE.md)",
         },
-        "mandate": {"objective_return": P.OBJECTIVE_RETURN, "max_weight": P.MAX_WEIGHT,
+        "mandate": {"universe": names, "benchmark": "equal weight of the five funds",
+                    "risk_measure": "annualized volatility (with max drawdown as the stop limit)",
+                    "objective_return": P.OBJECTIVE_RETURN, "max_weight": P.MAX_WEIGHT,
                     "long_only": True, "grid_step": P.STEP,
                     "rebalance_months": P.REBALANCE_MONTHS, "cost_bps_one_way": P.COST_BPS},
     }
@@ -99,10 +101,19 @@ def main():
 
     # 2. Baselines on the same estimates -------------------------------------------------
     ew = P.equal_weights(n)
+    iv = P.inverse_volatility_weights(full["volatilities"])
     xle = [1.0 if t == "XLE" else 0.0 for t in names]
+
+    def verdict(w):
+        chk = P.mandate_check(w, full["returns"])
+        return {"weights": describe(names, w), **stats_for(w, full),
+                "mandate_passes": chk["passes"], "failed_rules": chk["failed_rules"]}
     results["baselines_60m"] = {
-        "equal_weight": stats_for(ew, full),
-        "XLE_only": stats_for(xle, full),
+        "recommended (capped minimum-volatility)": verdict(capped["weights"]),
+        "equal_weight (baseline 1, benchmark)": verdict(ew),
+        "inverse_volatility (baseline 2)": verdict(iv),
+        "unconstrained search (for contrast)": verdict(uncapped["weights"]),
+        "XLE_only (sector proxy)": verdict(xle),
     }
 
     # 3. Estimation-window sensitivity ---------------------------------------------------
@@ -123,7 +134,8 @@ def main():
     holdout = {"estimation_months": [return_months[0], return_months[ESTIMATION_MONTHS - 1]],
                "test_months": [return_months[ESTIMATION_MONTHS], return_months[-1]],
                "chosen_weights": None if train_mix is None else describe(names, train_mix["weights"])}
-    candidates = {"equal_weight": ew, "XLE_only": xle}
+    iv_train = P.inverse_volatility_weights(train_est["volatilities"])
+    candidates = {"equal_weight": ew, "inverse_volatility": iv_train, "XLE_only": xle}
     if train_mix is not None:
         candidates = {"strategy": train_mix["weights"], **candidates}
     perf = {}
@@ -202,6 +214,46 @@ def main():
                            "weight_range_p10_median_p90": ranges}
     results["robustness"] = robust
 
+    # 5b. Constraint stress: the same study at several single-fund caps -------------------
+    cap_rows = []
+    for cap in (0.30, 0.35, 0.40, 0.50, 1.00):
+        mix_c, _ = pick(full, max_weight=cap)
+        t_mix = P.lowest_risk_mix(train_est["returns"], P.covariance_matrix(
+            train_est["correlation"], train_est["volatilities"]), P.OBJECTIVE_RETURN, cap)
+        row = {"cap": cap, "weights": describe(names, mix_c["weights"]),
+               "expected_return": mix_c["expected_return"], "volatility": mix_c["volatility"],
+               "passes_40pct_mandate": max(mix_c["weights"]) <= P.MAX_WEIGHT + 1e-9}
+        if t_mix is not None:
+            bt = P.backtest(t_mix["weights"], test)
+            perf_c = P.performance(bt["path"], bt["net_returns"])
+            row.update({"holdout_return": perf_c["annual_return"],
+                        "holdout_volatility": perf_c["annual_volatility"],
+                        "holdout_max_drawdown": perf_c["max_drawdown"]})
+        cap_rows.append(row)
+    results["constraint_stress"] = cap_rows
+
+    # 5c. Point-in-time signal: trailing 12-month volatility of the recommended mix --------
+    history = []
+    for d in dates:
+        sig = P.risk_signal(dates, prices, capped["weights"], d)
+        if sig is not None:
+            history.append({"as_of": d, "annual_volatility": sig["annual_volatility"],
+                            "status": sig["status"]})
+    review = [h["as_of"] for h in history if h["status"] == "REVIEW"]
+    results["signal"] = {
+        "name": "Trailing 12-month realized volatility of the recommended mix",
+        "threshold": P.SIGNAL_THRESHOLD, "window_months": P.SIGNAL_MONTHS,
+        "current": history[-1], "max": max(history, key=lambda h: h["annual_volatility"]),
+        "months_at_or_above_threshold": len(review),
+        "review_months": review, "first_month": history[0]["as_of"], "history": history,
+    }
+
+    # Stop condition (applies during the pilot; see memo section 5)
+    results["stop_condition"] = (
+        "STOP the process (reject) if the paper portfolio's drawdown is worse than -25%, or the "
+        "re-estimated capped mix cannot reach the 8% objective. PAUSE for review whenever the "
+        f"point-in-time risk signal is at or above {P.SIGNAL_THRESHOLD:.0%}.")
+
     # 6. Decision (rule fixed above, applied mechanically) -------------------------------
     mandate_ok = P.mandate_check(capped["weights"], full["returns"])["passes"]
     reasons = []
@@ -266,8 +318,9 @@ def render(r):
     L.append(f"- **Prices:** month-ends {d['price_months'][0]} to {d['price_months'][1]}; "
              f"{d['monthly_returns']} monthly returns ({d['return_months'][0]} to {d['return_months'][1]})")
     L.append(f"- **As-of:** {d['as_of']}")
-    L.append(f"- **Mandate:** expected return >= {pct(m['objective_return'], 1)}; no fund above "
-             f"{pct(m['max_weight'], 0)}; long-only; {pct(m['grid_step'], 0)} grid; "
+    L.append(f"- **Mandate:** universe {', '.join(m['universe'])}; benchmark {m['benchmark']}; risk measure "
+             f"{m['risk_measure']}; objective expected return >= {pct(m['objective_return'], 1)}; limits: no fund above "
+             f"{pct(m['max_weight'], 0)}, long-only; {pct(m['grid_step'], 0)} grid; "
              f"rebalance every {m['rebalance_months']} months; {m['cost_bps_one_way']} bps one-way cost\n")
     L.append(f"## Decision: **{r['decision']['action']}**\n")
     for reason in r["decision"]["reasons"]:
@@ -289,11 +342,12 @@ def render(r):
         L.append(f"| {t} | {pct(est['returns'][t])} | ±{pct(est['return_standard_errors'][t])} | "
                  f"{pct(est['volatilities'][t])} |")
     L.append("\nA 60-month mean is noisy: roughly two standard errors either side is a plausible range.")
-    L.append("\n## Baselines on the same estimates\n")
-    L.append("| Portfolio | Expected return | Volatility |\n|---|---:|---:|")
-    L.append(f"| Recommended (capped) | {pct(rec['expected_return'])} | {pct(rec['volatility'])} |")
+    L.append("\n## Portfolio and baselines with mandate verdicts (60-month estimates)\n")
+    L.append("| Portfolio | Weights | Expected return | Volatility | Mandate verdict |\n|---|---|---:|---:|---|")
     for k, v in r["baselines_60m"].items():
-        L.append(f"| {k.replace('_', ' ')} | {pct(v['expected_return'])} | {pct(v['volatility'])} |")
+        why = "PASS" if v["mandate_passes"] else "FAIL: " + "; ".join(v["failed_rules"])
+        L.append(f"| {k.replace('_', ' ')} | {mixline(v['weights'])} | {pct(v['expected_return'])} | "
+                 f"{pct(v['volatility'])} | {why} |")
     L.append("\n## Estimation-window sensitivity (cap enforced)\n")
     L.append("| Window | Mix | Return | Volatility |\n|---|---|---:|---:|")
     for k, v in r["window_sensitivity"].items():
@@ -334,7 +388,23 @@ def render(r):
     L.append("\n| Fund | 10th pct weight | Median | 90th pct |\n|---|---:|---:|---:|")
     for t, v in bs["weight_range_p10_median_p90"].items():
         L.append(f"| {t} | {pct(v['p10'], 0)} | {pct(v['median'], 0)} | {pct(v['p90'], 0)} |")
-    L.append("")
+    L.append("\n## Constraint stress: single-fund cap levels\n")
+    L.append("| Cap | Mix (60 months) | Return | Volatility | Holdout return | Holdout vol | Holdout max DD | Meets 40% mandate |\n"
+             "|---:|---|---:|---:|---:|---:|---:|---|")
+    for c in r["constraint_stress"]:
+        L.append(f"| {pct(c['cap'], 0)} | {mixline(c['weights'])} | {pct(c['expected_return'])} | {pct(c['volatility'])} | "
+                 f"{pct(c.get('holdout_return'))} | {pct(c.get('holdout_volatility'))} | {pct(c.get('holdout_max_drawdown'))} | "
+                 f"{'yes' if c['passes_40pct_mandate'] else 'no'} |")
+    L.append("\nEqual-weight holdout for comparison: see the holdout table above.")
+    sg = r["signal"]
+    L.append("\n## Point-in-time signal\n")
+    L.append(f"**{sg['name']}**, as known at each month-end close (data card: `data/SIGNAL-DATA-CARD.md`).\n")
+    L.append(f"- **Current ({sg['current']['as_of']}):** {pct(sg['current']['annual_volatility'])} - **{sg['current']['status']}** "
+             f"(threshold {pct(sg['threshold'], 0)})")
+    L.append(f"- **Highest:** {pct(sg['max']['annual_volatility'])} as of {sg['max']['as_of']}")
+    L.append(f"- **Months at or above threshold:** {sg['months_at_or_above_threshold']} of {len(sg['history'])} "
+             f"({', '.join(sg['review_months']) or 'none'})")
+    L.append(f"\n**Stop condition:** {r['stop_condition']}\n")
     return "\n".join(L)
 
 

@@ -22,6 +22,15 @@
     "source": "Yahoo Finance monthly Adj Close, downloaded 2026-10-22 (see data/DATA-SOURCE.md)"
   },
   "mandate": {
+    "universe": [
+      "XLE",
+      "XOP",
+      "AMLP",
+      "ICLN",
+      "NLR"
+    ],
+    "benchmark": "equal weight of the five funds",
+    "risk_measure": "annualized volatility (with max drawdown as the stop limit)",
     "objective_return": 0.08,
     "max_weight": 0.4,
     "long_only": true,
@@ -120,13 +129,74 @@
     "mandate_passes": false
   },
   "baselines_60m": {
-    "equal_weight": {
-      "expected_return": 0.1650428846,
-      "volatility": 0.192526759
+    "recommended (capped minimum-volatility)": {
+      "weights": {
+        "XLE": 0.15,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "expected_return": 0.151985811,
+      "volatility": 0.1713832968,
+      "mandate_passes": true,
+      "failed_rules": []
     },
-    "XLE_only": {
+    "equal_weight (baseline 1, benchmark)": {
+      "weights": {
+        "XLE": 0.2,
+        "XOP": 0.2,
+        "AMLP": 0.2,
+        "ICLN": 0.2,
+        "NLR": 0.2
+      },
+      "expected_return": 0.1650428846,
+      "volatility": 0.192526759,
+      "mandate_passes": true,
+      "failed_rules": []
+    },
+    "inverse_volatility (baseline 2)": {
+      "weights": {
+        "XLE": 0.1972,
+        "XOP": 0.1705,
+        "AMLP": 0.2782,
+        "ICLN": 0.1777,
+        "NLR": 0.1765
+      },
+      "expected_return": 0.1684121039,
+      "volatility": 0.1879702173,
+      "mandate_passes": true,
+      "failed_rules": []
+    },
+    "unconstrained search (for contrast)": {
+      "weights": {
+        "XLE": 0.0,
+        "XOP": 0.0,
+        "AMLP": 0.7,
+        "ICLN": 0.2,
+        "NLR": 0.1
+      },
+      "expected_return": 0.1514117047,
+      "volatility": 0.1611226935,
+      "mandate_passes": false,
+      "failed_rules": [
+        "no fund above 40%"
+      ]
+    },
+    "XLE_only (sector proxy)": {
+      "weights": {
+        "XLE": 1.0,
+        "XOP": 0.0,
+        "AMLP": 0.0,
+        "ICLN": 0.0,
+        "NLR": 0.0
+      },
       "expected_return": 0.2412612524,
-      "volatility": 0.2602345564
+      "volatility": 0.2602345564,
+      "mandate_passes": false,
+      "failed_rules": [
+        "no fund above 40%"
+      ]
     }
   },
   "window_sensitivity": {
@@ -196,6 +266,14 @@
         "worst_month": -0.0921889376,
         "ending_value_per_dollar": 1.4860099022,
         "turnover": 1.2661331331
+      },
+      "inverse_volatility": {
+        "annual_return": 0.1527561882,
+        "annual_volatility": 0.1704872529,
+        "max_drawdown": -0.1263536397,
+        "worst_month": -0.0977218527,
+        "ending_value_per_dollar": 1.531836406,
+        "turnover": 1.3060048711
       },
       "XLE_only": {
         "annual_return": 0.1432850279,
@@ -584,6 +662,362 @@
       }
     }
   },
+  "constraint_stress": [
+    {
+      "cap": 0.3,
+      "weights": {
+        "XLE": 0.25,
+        "XOP": 0.0,
+        "AMLP": 0.3,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "expected_return": 0.1574971138,
+      "volatility": 0.1771493274,
+      "passes_40pct_mandate": true,
+      "holdout_return": 0.1471637095,
+      "holdout_volatility": 0.1745461004,
+      "holdout_max_drawdown": -0.1393172928
+    },
+    {
+      "cap": 0.35,
+      "weights": {
+        "XLE": 0.2,
+        "XOP": 0.0,
+        "AMLP": 0.35,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "expected_return": 0.1547414624,
+      "volatility": 0.1741242956,
+      "passes_40pct_mandate": true,
+      "holdout_return": 0.1480884586,
+      "holdout_volatility": 0.185960664,
+      "holdout_max_drawdown": -0.1607698776
+    },
+    {
+      "cap": 0.4,
+      "weights": {
+        "XLE": 0.15,
+        "XOP": 0.0,
+        "AMLP": 0.4,
+        "ICLN": 0.25,
+        "NLR": 0.2
+      },
+      "expected_return": 0.151985811,
+      "volatility": 0.1713832968,
+      "passes_40pct_mandate": true,
+      "holdout_return": 0.1586136874,
+      "holdout_volatility": 0.185454403,
+      "holdout_max_drawdown": -0.1502171142
+    },
+    {
+      "cap": 0.5,
+      "weights": {
+        "XLE": 0.1,
+        "XOP": 0.0,
+        "AMLP": 0.5,
+        "ICLN": 0.25,
+        "NLR": 0.15
+      },
+      "expected_return": 0.1485693049,
+      "volatility": 0.1665302039,
+      "passes_40pct_mandate": false,
+      "holdout_return": 0.1643090317,
+      "holdout_volatility": 0.2077445493,
+      "holdout_max_drawdown": -0.169235142
+    },
+    {
+      "cap": 1.0,
+      "weights": {
+        "XLE": 0.0,
+        "XOP": 0.0,
+        "AMLP": 0.7,
+        "ICLN": 0.2,
+        "NLR": 0.1
+      },
+      "expected_return": 0.1514117047,
+      "volatility": 0.1611226935,
+      "passes_40pct_mandate": false,
+      "holdout_return": 0.1689039887,
+      "holdout_volatility": 0.2895422797,
+      "holdout_max_drawdown": -0.2387885064
+    }
+  ],
+  "signal": {
+    "name": "Trailing 12-month realized volatility of the recommended mix",
+    "threshold": 0.25,
+    "window_months": 12,
+    "current": {
+      "as_of": "2026-09",
+      "annual_volatility": 0.1775931804,
+      "status": "OK"
+    },
+    "max": {
+      "as_of": "2022-10",
+      "annual_volatility": 0.2605943678,
+      "status": "REVIEW"
+    },
+    "months_at_or_above_threshold": 7,
+    "review_months": [
+      "2022-09",
+      "2022-10",
+      "2022-12",
+      "2023-01",
+      "2023-02",
+      "2023-03",
+      "2023-04"
+    ],
+    "first_month": "2022-09",
+    "history": [
+      {
+        "as_of": "2022-09",
+        "annual_volatility": 0.2557050337,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2022-10",
+        "annual_volatility": 0.2605943678,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2022-11",
+        "annual_volatility": 0.2479835809,
+        "status": "OK"
+      },
+      {
+        "as_of": "2022-12",
+        "annual_volatility": 0.2556336044,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2023-01",
+        "annual_volatility": 0.257159178,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2023-02",
+        "annual_volatility": 0.2599684229,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2023-03",
+        "annual_volatility": 0.2575305891,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2023-04",
+        "annual_volatility": 0.2523582137,
+        "status": "REVIEW"
+      },
+      {
+        "as_of": "2023-05",
+        "annual_volatility": 0.2454296479,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-06",
+        "annual_volatility": 0.2185427016,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-07",
+        "annual_volatility": 0.1885503698,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-08",
+        "annual_volatility": 0.189172986,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-09",
+        "annual_volatility": 0.1546220015,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-10",
+        "annual_volatility": 0.129208678,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-11",
+        "annual_volatility": 0.1399355525,
+        "status": "OK"
+      },
+      {
+        "as_of": "2023-12",
+        "annual_volatility": 0.1306912336,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-01",
+        "annual_volatility": 0.1219493945,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-02",
+        "annual_volatility": 0.1095405083,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-03",
+        "annual_volatility": 0.1136645419,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-04",
+        "annual_volatility": 0.11711625,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-05",
+        "annual_volatility": 0.1135862307,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-06",
+        "annual_volatility": 0.1163801453,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-07",
+        "annual_volatility": 0.1119861861,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-08",
+        "annual_volatility": 0.1101586752,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-09",
+        "annual_volatility": 0.1106972978,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-10",
+        "annual_volatility": 0.099085138,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-11",
+        "annual_volatility": 0.0969405015,
+        "status": "OK"
+      },
+      {
+        "as_of": "2024-12",
+        "annual_volatility": 0.1385853356,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-01",
+        "annual_volatility": 0.1457126389,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-02",
+        "annual_volatility": 0.146870637,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-03",
+        "annual_volatility": 0.1424936063,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-04",
+        "annual_volatility": 0.1441258994,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-05",
+        "annual_volatility": 0.1502660173,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-06",
+        "annual_volatility": 0.1550526373,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-07",
+        "annual_volatility": 0.1557020982,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-08",
+        "annual_volatility": 0.1550508577,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-09",
+        "annual_volatility": 0.1559533883,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-10",
+        "annual_volatility": 0.1568897863,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-11",
+        "annual_volatility": 0.155044402,
+        "status": "OK"
+      },
+      {
+        "as_of": "2025-12",
+        "annual_volatility": 0.1171983643,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-01",
+        "annual_volatility": 0.1469245458,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-02",
+        "annual_volatility": 0.1413605085,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-03",
+        "annual_volatility": 0.1405379002,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-04",
+        "annual_volatility": 0.1288506869,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-05",
+        "annual_volatility": 0.1290466327,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-06",
+        "annual_volatility": 0.1563020019,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-07",
+        "annual_volatility": 0.158600239,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-08",
+        "annual_volatility": 0.1596327491,
+        "status": "OK"
+      },
+      {
+        "as_of": "2026-09",
+        "annual_volatility": 0.1775931804,
+        "status": "OK"
+      }
+    ]
+  },
+  "stop_condition": "STOP the process (reject) if the paper portfolio's drawdown is worse than -25%, or the re-estimated capped mix cannot reach the 8% objective. PAUSE for review whenever the point-in-time risk signal is at or above 25%.",
   "decision_conditions": {
     "mandate passes (full sample)": true,
     "holdout net return >= objective": true,

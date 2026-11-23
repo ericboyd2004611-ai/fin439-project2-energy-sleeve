@@ -69,6 +69,33 @@ class KnownAnswers(unittest.TestCase):
         self.assertAlmostEqual(perf["max_drawdown"], 0.9 / 1.2 - 1)
 
 
+class NewProject2Pieces(unittest.TestCase):
+    def test_inverse_volatility_known_answer(self):
+        # vols 10% and 20% -> inverse 10 and 5 -> weights 2/3 and 1/3
+        w = P.inverse_volatility_weights([0.10, 0.20])
+        self.assertAlmostEqual(w[0], 2 / 3, places=12)
+        self.assertAlmostEqual(sum(w), 1.0, places=12)
+
+    def test_mandate_check_names_the_failed_rule(self):
+        out = P.mandate_check([0.7, 0.3], [0.10, 0.10])
+        self.assertFalse(out["passes"])
+        self.assertEqual(out["failed_rules"], ["no fund above 40%"])
+
+    def test_signal_is_point_in_time(self):
+        # Changing every price AFTER the as-of month must not change the signal as of that month
+        names, dates, prices = P.read_prices(str(ROOT / "data" / "prices.csv"))
+        w = [0.15, 0.0, 0.40, 0.25, 0.20]
+        before = P.risk_signal(dates, prices, w, "2023-09")
+        altered = [row if d <= "2023-09" else [x * 3 for x in row] for d, row in zip(dates, prices)]
+        after = P.risk_signal(dates, altered, w, "2023-09")
+        self.assertEqual(before, after)
+
+    def test_signal_needs_full_window(self):
+        names, dates, prices = P.read_prices(str(ROOT / "data" / "prices.csv"))
+        self.assertIsNone(P.risk_signal(dates, prices, [0.2] * 5, dates[11]))   # only 11 returns
+        self.assertIsNotNone(P.risk_signal(dates, prices, [0.2] * 5, dates[12]))
+
+
 class Refusals(unittest.TestCase):
     def test_bad_correlation_refused(self):
         with self.assertRaises(ValueError):
