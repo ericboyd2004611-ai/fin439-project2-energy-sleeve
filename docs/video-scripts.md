@@ -15,22 +15,24 @@ AI disclosure: Claude drafted these scripts (see Validation-and-AI-Use §11). Yo
 
 ---
 
-## Video 1 — Research evolution and AI-output check (≤ 3:00)
+## Video 1 — How the system and my thinking changed, plus an AI-output check (≤ 3:00)
 
-**Title:** `FIN439 Project 2 – Video 1 – Research Evolution and AI Check – Eric Boyd`
+Project 2 has no Edition A or B (course owner ruling 2026-10-14). Per the course architecture, this video shows **how the system and your thinking changed, plus one checked AI output**.
 
-**Have open:** your Edition A PDF, `docs/research-evolution.md` (the change table), and `output/visible-output.md` (holdout table).
+**Title:** `FIN439 Project 2 – Video 1 – How the System Changed and AI Check – Eric Boyd`
+
+**Have open:** `Lab 15/Lab 15.md` (your starting point), `output/visible-output.md`, `docs/locked-changed-input-record.md`, and `docs/validation-and-ai-use.md` §11.
 
 | Time | On screen | What to say (in your own words) |
 |---|---|---|
-| 0:00–0:20 | Edition A, page 1 | "This is my Project 2 Edition A, submitted [date] before any project-specific AI. My decision was whether a committee should fund an energy ETF sleeve. In Edition A my position was [your Edition A thesis]." |
-| 0:20–1:00 | Change table, first row | "Edition B's position is a **no-capital pilot**. The consequential change came from **mixed** drivers: my own analysis plus a holdout test that AI helped build. What moved me was the out-of-sample result. I chose the mix using only October 2021 to September 2023, then tested it on the next 36 months." |
-| 1:00–1:50 | Holdout table in `visible-output.md` | **AI-output check:** "The AI described this capped mix as the 'lowest-risk' portfolio. I didn't accept that label. I checked it against the naive equal-weight baseline out of sample. The strategy's volatility was **18.55%** against equal weight's **15.97%**, and its drawdown was **−15.0%** against **−12.9%**. So I **rejected** 'lowest risk' as a reason to adopt. It earned more, 15.86% a year, but that wasn't its job." |
-| 1:50–2:20 | Validation §11, row "survives every one-point change" | "A second AI claim from Lab 15 was that the mix 'survives every one-point return change.' I **qualified** it. The objective sweep shows the 8% target never binds until 15.5%. So it's stable only because returns don't matter to this search, and the uncapped version broke my 40% cap." |
-| 2:20–2:50 | Change table, remaining rows | "What stayed the same: [anything marked No material change, and the evidence for it]. Why that evidence is enough: the decision rule was written into the code before I ran the holdout, so I couldn't tune the result to the rule." |
-| 2:50–3:00 | — | "So Edition B moved from [A] to pilot, because the risk claim failed a test it could have passed." |
+| 0:00–0:25 | `Lab 15.md`, the "Answer" section | "In Lab 15 my starting point was: the lowest-risk energy mix is 70% AMLP, 20% ICLN, 10% NLR, and it survives every one-point return change. I took that as a stable answer." |
+| 0:25–1:00 | `Lab 15.md`, "Mandate check the app does not do" | "**First change, to the system:** that answer broke my own 40% single-fund cap, because the app never checked it. So I moved the cap *inside* the search. The mix became 15 / 0 / 40 / 25 / 20. **Driver:** my own analysis of the Lab 15 output." |
+| 1:00–1:45 | `visible-output.md`, holdout table | "**Second change, to my thinking:** I'd been treating it as a lower-risk portfolio. So I tested it on data it hadn't seen: chosen on 2021–2023, tested on Oct 2023 to Sep 2026. It earned 15.86% a year, but volatility was **18.55% vs 15.97%** for equal weight, and the drawdown was worse. My position moved from 'adopt the lowest-risk mix' to a **no-capital pilot**. **Driver:** mixed — course instruction on holdouts, plus a test that AI helped build." |
+| 1:45–2:25 | Validation §11, the "lowest-risk" and "survives every change" rows | **AI-output check:** "The AI's Lab 15 claim was that the mix 'survives every one-point return change.' I checked it with an objective sweep. It survives only because the 8% target never binds until 15.5%: all 3,951 capped mixes clear 8%. So I **qualified** it: stable, but for the wrong reason. Its 'lowest-risk' label I **rejected** as a basis for adoption, based on the holdout." |
+| 2:25–2:55 | `locked-changed-input-record.md`, Steps 2 and 6 | "My own AI-off check: I predicted the cap going from 40 to 30 would move weight to XLE *and* NLR. It all went to XLE. I'd reasoned from returns, but the search minimizes volatility. That's partly matched, and the decision stayed PILOT." |
+| 2:55–3:00 | — | "So the system now enforces the mandate, and my recommendation follows the out-of-sample evidence, not the in-sample label." |
 
-**Timestamp index for the manifest:** Edition A 0:00 · change and driver 0:20 · AI-output check 1:00 · second AI check 1:50 · why the evidence is sufficient 2:20.
+**Timestamp index for the manifest:** starting point 0:00 · system change 0:25 · thinking change and driver 1:00 · AI-output check 1:45 · own AI-off check 2:25.
 
 ---
 

@@ -1,5 +1,7 @@
 # Research Evolution — Energy Satellite Sleeve (Project 2)
 
+> **NOT SUBMITTED. Not required for Project 2.** Project 2 has no Edition A or B (course owner ruling 2026-10-14). These are working notes only. The "how my thinking changed" evidence is in Video 1, the memo and the validation record.
+
 **Student:** Eric Boyd · FIN 43900 Fall 2026
 
 ## Part 1 — Edition A (unchanged)

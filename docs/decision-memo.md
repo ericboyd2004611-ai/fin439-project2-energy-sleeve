@@ -8,6 +8,9 @@
 
 - **Target mix:** XLE 15% / XOP 0% / AMLP 40% / ICLN 25% / NLR 20%.
 - **Tolerance range** (10th–90th percentile of 200 bootstrap re-estimates): XLE 5–25%, XOP 0%, AMLP 40%, ICLN 15–35%, NLR 10–30%.
+- **Intended user:** the investment committee deciding whether to fund an energy satellite sleeve.
+- **Horizon:** a 5+ year holding horizon, matching the 5-year data window. This is a working assumption for the committee to confirm. The 12-month paper pilot is a gate *before* any capital is committed.
+- **Constraints:** expected return ≥ 8%, no fund above 40%, long-only and fully invested, annual rebalancing.
 
 **The committee is asked to:**
 
@@ -27,6 +30,15 @@ The decision rule was fixed in code before the holdout was run (`analysis.py`). 
 | Holdout max drawdown no worse than equal weight | **FAIL** | −15.02% vs −12.88% |
 
 The strategy's purpose is *lowest risk*, and that is the claim that failed. The mix chosen on the first 24 months (AMLP 40 / ICLN 20 / NLR 40) earned more than equal weight out of sample. But it was **riskier** than equal weight on both risk measures. A minimum-volatility method that doesn't deliver lower volatility out of sample hasn't earned capital. The return result is not enough to adopt, because it rests on one 36-month energy regime.
+
+**How this recommendation changed:**
+
+| Stage | Answer | What changed it |
+|---|---|---|
+| Lab 15 starting point | AMLP 70 / ICLN 20 / NLR 10, described as "stable" to one-point return changes | — |
+| Cap enforced in the search | XLE 15 / AMLP 40 / ICLN 25 / NLR 20 | The 70% AMLP answer broke the 40% mandate cap. "Stable" only because the 8% objective never binds |
+| Out-of-sample holdout | Riskier than equal weight (18.55% vs 15.97% volatility) | The minimum-volatility claim failed out of sample: **adopt → pilot** |
+| Locked changed-input test (cap 40% → 30%) | XLE 25 / AMLP 30 / ICLN 25 / NLR 20; still PILOT | Decision is robust to the cap level. A tighter cap reduces holdout risk but not enough to beat equal weight |
 
 ## 3. Evidence (Yahoo Finance monthly Adj Close, Sep 2021–Sep 2026, 60 returns)
 

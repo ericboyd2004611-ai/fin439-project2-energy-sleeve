@@ -14,7 +14,6 @@ code{font-size:9pt;background:#f4f4f4}pre{font-size:8.5pt;background:#f4f4f4;pad
 blockquote{border-left:3px solid #ccc;margin:6px 0;padding:2px 10px;color:#333}p,li{margin:3px 0}"""
 JOBS = [("docs/decision-memo.md", "Decision-Memo.pdf", "decision-memo.pdf"),
         ("docs/validation-and-ai-use.md", "Validation-and-AI-Use.pdf", "validation-and-ai-use.pdf"),
-        ("docs/research-evolution.md", "Research-Evolution-EditionB-only.pdf", None),
         ("output/visible-output.md", "Visible-Output.pdf", None)]
 
 

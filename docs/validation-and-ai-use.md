@@ -135,7 +135,7 @@ The rule was fixed in `analysis.py` before the holdout was run:
 - 2026-11-17 (Lab 20)
 - 2026-11-23 (Project 2 build)
 
-**Edition A boundary:** Edition A was submitted to Brightspace on ________ (receipt ________). Project-specific AI use in Lab 15 on 2026-10-22 was ☐ after / ☐ before that receipt. If before, see the disclosure in Research-Evolution.pdf.
+**Edition A / B:** not applicable. Project 2 has no Edition A or Edition B checkpoint (course owner ruling 2026-10-14; editions ruling 2026-11-10, per the course `PROJECT-SUBMISSION-ARCHITECTURE.md`). The AI-off evidence for this project is the Locked Changed-Input prediction (§10), committed at 16:36:36 on 2026-11-23, before the run at 16:37:13.
 
 | Date | AI task and material output | Check performed | Disposition and reason |
 |---|---|---|---|
@@ -149,6 +149,6 @@ The rule was fixed in `analysis.py` before the holdout was run:
 | 11-23 | Labelled the capped mix "lowest-risk" | Out-of-sample volatility 18.55% vs equal weight's 15.97% | **Rejected** as a basis for adoption. This is the main AI-output check (Video 1) |
 | 11-23 | Drafted the README, memo, this record, Edition B and the three video scripts | I checked every number against `output/visible-output.md` | **Modified** — student edits: ________ |
 
-**Not done by AI:** the Edition A baseline, the Locked Changed-Input prediction, recording the videos, and correcting the transcripts.
+**Not done by AI:** the Locked Changed-Input prediction and its reconciliation, recording the videos, and correcting the transcripts.
 
 **Student review:** ________ (list what you re-checked yourself and any edits).

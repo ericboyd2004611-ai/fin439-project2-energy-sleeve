@@ -81,9 +81,14 @@ Equal-weight holdout for comparison (unchanged by the cap): volatility 15.97%, m
 | 4. Decision | Predicted PILOT would remain PILOT. The actual decision stayed PILOT. | Matched |
 
 ### Actual decision effect
+
 The decision remained PILOT after reducing the maximum weight from 40% to 30%. The portfolio still passes the mandate, but the holdout return decreased by 1.14 percentage points.
+
 ### Why results differed
+
 The higher expected return did not translate into better holdout performance. Moving 10% from AMLP to XLE increased estimated return and volatility, but actual holdout volatility decreased from 18.55% to 17.45%. This difference occurred because historical performance and correlations during the holdout period can differ from the estimates used in the model.
+
 ### Committee recommendation
+
 I recommend keeping the **PILOT** decision. The tighter 30% cap reduces concentration in AMLP while maintaining compliance with the mandate. Although expected return increased, holdout return decreased, showing that higher projected returns do not guarantee better performance. However, lower holdout volatility and a smaller maximum drawdown suggest improved downside risk during the test period. The committee should continue monitoring performance before approving a larger allocation.
 
