@@ -30,6 +30,7 @@ TOLERANCE = 1e-9
 
 
 # ---------------------------------------------------------------------------
+# Sums use math.fsum (exactly rounded) so results are identical on every Python version.
 # Data: read monthly prices and turn them into returns
 # ---------------------------------------------------------------------------
 def read_prices(source):
@@ -72,18 +73,18 @@ def monthly_returns(prices):
 
 
 def _mean(xs):
-    return sum(xs) / len(xs)
+    return math.fsum(xs) / len(xs)
 
 
 def _stdev(xs):
     m = _mean(xs)
-    return math.sqrt(sum((x - m) ** 2 for x in xs) / (len(xs) - 1))
+    return math.sqrt(math.fsum((x - m) ** 2 for x in xs) / (len(xs) - 1))
 
 
 def _correlation(xs, ys):
     mx, my = _mean(xs), _mean(ys)
-    sxy = sum((x - mx) * (y - my) for x, y in zip(xs, ys))
-    return sxy / math.sqrt(sum((x - mx) ** 2 for x in xs) * sum((y - my) ** 2 for y in ys))
+    sxy = math.fsum((x - mx) * (y - my) for x, y in zip(xs, ys))
+    return sxy / math.sqrt(math.fsum((x - mx) ** 2 for x in xs) * math.fsum((y - my) ** 2 for y in ys))
 
 
 def estimate(returns):
@@ -97,7 +98,7 @@ def estimate(returns):
         raise ValueError(f"Only {len(returns)} monthly returns; at least 12 needed.")
     columns = list(zip(*returns))
     n = len(columns)
-    if any(_stdev(c) == 0 for c in columns):
+    if any(_stdev(c) < 1e-12 for c in columns):
         raise ValueError("A fund has zero volatility in this window; correlation is undefined.")
     corr =[[1.0 if i == j else _correlation(columns[i], columns[j]) for j in range(n)]
             for i in range(n)]
@@ -148,12 +149,12 @@ def covariance_matrix(corr, vols):
 
 
 def portfolio_return(weights, returns):
-    return sum(w * r for w, r in zip(weights, returns))
+    return math.fsum(w * r for w, r in zip(weights, returns))
 
 
 def portfolio_volatility(weights, cov):
     n = len(weights)
-    variance = sum(weights[i] * weights[j] * cov[i][j] for i in range(n) for j in range(n))
+    variance = math.fsum(weights[i] * weights[j] * cov[i][j] for i in range(n) for j in range(n))
     return math.sqrt(max(variance, 0.0))
 
 
@@ -164,7 +165,7 @@ def mandate_check(weights, returns, objective=OBJECTIVE_RETURN, max_weight=MAX_W
     """Every checkable mandate rule, each as pass/fail, so a verdict is never implied."""
     expected = portfolio_return(weights, returns)
     checks = {
-        "weights sum to 100%": abs(sum(weights) - 1) <= 1e-6,
+        "weights sum to 100%": abs(math.fsum(weights) - 1) <= 1e-6,
         "long-only (no weight below 0)": min(weights) >= -TOLERANCE,
         f"no fund above {max_weight:.0%}": max(weights) <= max_weight + TOLERANCE,
         f"expected return at least {objective:.1%}": expected >= objective - TOLERANCE,
@@ -243,15 +244,15 @@ def backtest(target, returns, rebalance_months=REBALANCE_MONTHS, cost_bps=COST_B
     """
     cost_rate = cost_bps / 10_000
     weights = list(target)
-    path, net_returns, turnover_total = [1.0], [], sum(target)
-    value = 1.0 - cost_rate * sum(target)          # initial purchase from cash
+    path, net_returns, turnover_total = [1.0], [], math.fsum(target)
+    value = 1.0 - cost_rate * math.fsum(target)          # initial purchase from cash
     start = value
     for month, row in enumerate(returns, start=1):
-        gross = sum(w * r for w, r in zip(weights, row))
+        gross = math.fsum(w * r for w, r in zip(weights, row))
         weights = [w * (1 + r) / (1 + gross) for w, r in zip(weights, row)]
         value *= 1 + gross
         if month % rebalance_months == 0 and month < len(returns):
-            turnover = sum(abs(t - w) for t, w in zip(target, weights)) / 2
+            turnover = math.fsum(abs(t - w) for t, w in zip(target, weights)) / 2
             value *= 1 - cost_rate * turnover * 2   # buys + sells, both pay one-way cost
             turnover_total += turnover * 2
             weights = list(target)

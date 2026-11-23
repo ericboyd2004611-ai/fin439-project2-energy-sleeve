@@ -97,11 +97,11 @@ No other windows, universes, objectives or seeds were tried and discarded.
 | Item | Result |
 |---|---|
 | Setup | Fresh copy of the repository files into an empty folder, a new `venv`, README commands only (Linux, Python 3.13.18, 2026-11-23) |
-| `python analysis.py` | Ran first time. Output hashes are **identical** to the committed output: `visible-output.md` `63d2baad…21b7c855`, `results.json` `9d3b8f8f…8de298f2` |
+| `python analysis.py` | Ran first time. Output hashes are **identical** to the committed output: `visible-output.md` `63d2baad…21b7c855`, `results.json` `70f0ab50…aa78138ed`. A second cold run was done on Python 3.10.12 (the Linux VM linked to my Mac) |
 | `python -m unittest discover -s tests -v` | 16 / 16 pass |
 | `pip install -r requirements.txt` → `streamlit run app.py` | Installed Streamlit 1.67.0; server health check returned `ok` |
 | Elapsed | 14 seconds, including the venv and the Streamlit install |
-| First failure | None in the cold run. During development the tests were not discovered without `tests/__init__.py`; fixed and documented in the README command |
+| First failure | Python 3.10 run: `test_zero_volatility_refused` failed, and `results.json` differed in the 17th digit. Cause: Python 3.12 changed how `sum()` adds floats. Fix: every sum uses `math.fsum` (exactly rounded), the zero-volatility check uses a 1e-12 tolerance, and the JSON is rounded to 10 decimals. Both Python versions now produce identical files. Earlier, tests were not discovered without `tests/__init__.py`; also fixed |
 | Still to do (student) | Repeat the README-only run on your own Mac, and record the result here: ________ |
 
 ## 8. Limitations that drive the action

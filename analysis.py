@@ -227,9 +227,20 @@ def main():
     results["decision"] = {"action": decision, "reasons": reasons}
 
     OUT.mkdir(exist_ok=True)
-    (OUT / "results.json").write_text(json.dumps(results, indent=2))
+    (OUT / "results.json").write_text(json.dumps(_round(results), indent=2))
     (OUT / "visible-output.md").write_text(render(results))
     print(render(results))
+
+
+def _round(obj):
+    """Round floats to 10 decimals so the JSON is stable across platforms."""
+    if isinstance(obj, float):
+        return round(obj, 10)
+    if isinstance(obj, dict):
+        return {k: _round(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_round(v) for v in obj]
+    return obj
 
 
 def pct(x, d=2):
