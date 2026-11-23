@@ -43,7 +43,7 @@ git commit -m "Lock changed-input prediction (AI off)"
 git push
 ```
 
-Lock commit (fill in after committing): `__________________`   Timestamp: `__________________`
+Lock commit: `89ab3f9b056eea3e2e45621f5b5966b6225b9ae5`   Timestamp: `2026-11-23T16:36:36-05:00` (committed on GitHub)
 
 ## Step 4 — run (AI closed)
 
@@ -55,9 +55,20 @@ The script refuses to run if the prediction is still this placeholder, or if the
 
 ## Step 5 — actual results (paste the printed table here)
 
-| Result | Before | After |
+Run: `python3 changed_input.py` at `2026-11-23T16:37:13-05:00`, against locked commit `89ab3f9`. Run with AI closed. Full output: `output/changed-input-result.json`.
+
+| Result | Before (cap 40%) | After (cap 30%) |
 |---|---|---|
-| | | |
+| Weights (XLE / XOP / AMLP / ICLN / NLR) | 15 / 0 / 40 / 25 / 20 | 25 / 0 / 30 / 25 / 20 |
+| Expected return | 15.20% | 15.75% |
+| Volatility | 17.14% | 17.71% |
+| Mandate passes | True | True |
+| Holdout annual return (net) | 15.86% | 14.72% |
+| Holdout volatility | 18.55% | 17.45% |
+| Holdout max drawdown | −15.02% | −13.93% |
+| Decision (rule in analysis.py) | PILOT | PILOT |
+
+Equal-weight holdout for comparison (unchanged by the cap): volatility 15.97%, max drawdown −12.88%.
 
 ## Step 6 — reconciliation and diagnosis (your words)
 
