@@ -1,2 +1,17 @@
-REPLACE THIS FILE with the corrected YouTube captions/transcript of the Video 1 you actually recorded.
-Correct tickers (XLE, XOP, AMLP, ICLN, NLR), finance terms, names and numbers. Do not paste the script.
+FIN439 Project 2 – Video 1 – How the System Changed and AI Check – Eric Boyd
+https://www.youtube.com/watch?v=slN-JEmV2aM  (2:58)
+Corrected from YouTube automatic captions, 2026-11-23. Filler words ("uh", "um") removed; tickers, names and terms corrected; [brackets] = a word the captions missed.
+
+Hey everyone, this is Eric Boyd. This is Video 1 for Project 2: how my system and my thinking changed, plus one AI output I checked. I used Claude to write the code and draft documents at my direction, and the analysis and the decisions are mine. This is education, not investment advice.
+
+So here's where I started, in Lab 15. My app said the lowest-risk energy portfolio was 70% AMLP, 20% [ICLN] and 10% NLR. It said that answer survived every one-point change in the return estimates, so I treated it as pretty stable.
+
+If we go to the mandate check right here: the first change was to the system. The 70% AMLP answer broke my own rule of no fund above 40%, because the app never checked it. So I moved the cap inside the search, and now every portfolio gets a pass or fail verdict. The answer became XLE 15%, AMLP 40%, [ICLN] 25% and NLR 20%. That change came from my own analysis of the Lab 15 [output].
+
+Now if we go to my visible output: the second change was to my thinking. I'd been calling this the lower-risk portfolio, so I [tested] it on data it had never seen. I chose the mix using 2021 [to] 2023, then tested it on the next three years. It earned 15.9% a year, but it was riskier than equal weight: 18.6% volatility versus 16%, and a worse drawdown. So I moved from adopt to pilot with no money. The driver was mixed: the course taught the holdout, and AI helped build the [test].
+
+So now the AI output I checked. In Lab 15, the AI told me this mix survives every one-point return change. I ran an objective sweep and found that it survives only because the 8% target never binds: all [of the] around 4,000 allowed portfolios clear 8%. I qualified that claim: stable, but for the wrong reason. And the AI's label of "lowest risk" I rejected as a reason to invest, because the out-of-sample test [contradicted] it.
+
+So I also tested myself with AI off. I predicted that tightening the cap from 40 to 30% would move weight to XLE and NLR. It all went to XLE. I was thinking about returns, but the search minimizes volatility. So that was partly right, and the decision stayed pilot.
+
+So the system now enforces the mandate, and my recommendation follows the out-of-sample evidence instead of the in-sample label.

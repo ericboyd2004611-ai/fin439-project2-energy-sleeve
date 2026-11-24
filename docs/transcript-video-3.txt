@@ -1,2 +1,27 @@
-REPLACE THIS FILE with the corrected YouTube captions/transcript of the Video 3 you actually recorded.
-Correct tickers (XLE, XOP, AMLP, ICLN, NLR), finance terms, names and numbers. Do not paste the script.
+FIN439 Project 2 – Video 3 – Live Demo and Investment Committee: Energy Sleeve Pilot – Eric Boyd
+https://www.youtube.com/watch?v=wQzNWBijURY  (5:31)
+Corrected from YouTube automatic captions, 2026-11-23. Filler words ("uh", "um") removed; tickers, names and terms corrected; [brackets] = a word the captions missed or misheard, or an editorial note.
+
+Hey everyone, I'm Eric Boyd, presenting my energy-sleeve recommendation to the investment committee. Two statements to start off with, which are also on the app's banner: Claude wrote the code and drafted documents at my direction, and the analysis and decisions are mine. This is education, not investment advice.
+
+So let's get started. Here's the mandate. The universe is five energy ETFs: XLE, XOP, AMLP, ICLN and NLR. The benchmark is equal weight. The risk measure is volatility, and the objective is at least 8% expected return, with no fund above 80% [sic: the mandate cap is 40%, as shown in the app's sidebar].
+
+If we look at this verdict table, this table is the core of my app. My constrained portfolio is XLE 15%, AMLP 40%, ICLN 25% and NLR 20%. This is the lowest-volatility mix that meets the mandate. Beside it are two baselines, equal weight and inverse volatility, and currently all three pass the mandate.
+
+Let's make the search cap 100%. Watch what will happen when I just move that. So we can see that it puts 70% in AMLP, and the verdict turns to fail, because of my previous rule that no fund can be above 70% [sic: 40%; the app's verdict reads "FAIL: no fund above 40%"]. That was my original answer in Lab 15, and the app now catches it. Let's go back to 40%.
+
+And let's move the point-in-time risk signal down to here. This is my point-in-time risk signal: the portfolio's volatility over the last 12 months, using only prices known at the month-end. In October 2022, during the energy spike, it reads 26%, which flags review. Let's move it back to today, and now we can see 17.76%, which is OK.
+
+So now if we go to the memo: my recommendation is pilot. Run this as a 12-month paper portfolio with no actual capital. I would ask the committee for three things: approve the pilot, confirm the mandate, and agree now on the triggers that decide to adopt or [reject].
+
+Why not adopt? Well, this strategy's whole purpose is lower risk. So I tested it out of sample. I chose the mix using 2021 to 2023 only, then measured October 2023 to September 2026. It earned 15.9% a year after costs, which beats the 8% target, but its volatility was 18.6% against 16% for simple equal weight, and its worst drawdown was minus 15% against minus 12.9%. I wrote the decision rule before running the test, and it failed both risk conditions. Even the inverse-volatility baseline was a little less risky out of sample than my optimized mix, and that makes it a [natural] fallback if the pilot fails.
+
+So why not reject it outright? In sample it's about two points less volatile than equal weight, it passes every mandate rule, and it has seven points of slack over the 8% target.
+
+I'm giving a [range], not a single answer. From 200 bootstrap re-estimates: XLE 5 to 25%, ICLN 15 to 35%, NLR 10 to 30%, with AMLP pinned right around 40%. The return estimates are noisy: XLE's 24% has a standard error of about 12 points. The stress tests show the cap really matters: without it, out-of-sample volatility is 29%. And the trading costs don't matter at annual rebalancing; even 50 basis points barely moves the return.
+
+The main three risks, so let's go over those. Three of the five funds are oil-linked and move together, with correlations around 0.8 to 0.9. The history is dominated by the 2022 oil spike. And the risk estimates didn't hold up out of sample, and taxes on the MLP exposure and capacity aren't really modeled yet.
+
+So if we look to the triggers, here's what would change my recommendation. The stop condition: reject if the paper portfolio falls more than 25% from its peak, or if the re-estimated mix can no longer reach 8%. Pause for review if the risk [signal] hits 25%. Rebalance early if the funds drift above 45%. And at 12 months, adopt only if the pilot's volatility and drawdown are both no worse than equal weight's. Otherwise reject, or switch to the inverse-volatility baseline.
+
+So my ask to the committee would be to approve the no-capital 12-month pilot, confirm the 8% objective and the 40% cap, and pre-commit to these triggers today. So the decision in 12 months is already made by the evidence. Thank you.

@@ -101,7 +101,35 @@ def run(settings, returns):
     return out
 
 
+def show(result, header):
+    def fmt(x):
+        return "none" if x is None else f"{x * 100:.2f}%"
+    print(header)
+    print(f"Changed {result['input']}: {result['old']} -> {result['new']} {result['units']}\n")
+    print("| Result | Before | After |\n|---|---|---|")
+    for label, k in [("Weights", "weights"), ("Expected return", "expected_return"),
+                     ("Volatility", "volatility"), ("Mandate passes", "mandate_passes"),
+                     ("Holdout annual return (net)", "holdout_annual_return"),
+                     ("Holdout volatility", "holdout_volatility"),
+                     ("Holdout max drawdown", "holdout_max_drawdown"), ("Decision (rule in analysis.py)", "decision")]:
+        b, a = result["before"][k], result["after"][k]
+        if k == "weights":
+            b = "none" if b is None else " / ".join(f"{t} {w*100:.0f}" for t, w in b.items())
+            a = "none" if a is None else " / ".join(f"{t} {w*100:.0f}" for t, w in a.items())
+        elif k not in ("mandate_passes", "decision"):
+            b, a = fmt(b), fmt(a)
+        print(f"| {label} | {b} | {a} |")
+
+
 def main():
+    saved = ROOT / "output" / "changed-input-result.json"
+    if saved.exists() and "--rerun" not in sys.argv:
+        # The locked run already happened: never overwrite its evidence, just show it.
+        r = json.loads(saved.read_text())
+        show(r, f"Locked run already recorded (prediction lock commit {r['locked_commit'][:7]}, "
+                f"committed {r['commit_time']}; run {r['run_time']}). Showing the saved result; "
+                "nothing was overwritten. Use --rerun to recompute into output/changed-input-rerun.json.")
+        return
     commit, commit_time = check_lock()
     cfg = json.loads(CONFIG.read_text())
     names, _, prices = P.read_prices(str(ROOT / "data" / "prices.csv"))
@@ -124,7 +152,8 @@ def main():
               "input": key, "old": old, "new": new, "units": cfg.get("units", ""),
               "before": before, "after": after}
     (ROOT / "output").mkdir(exist_ok=True)
-    (ROOT / "output" / "changed-input-result.json").write_text(json.dumps(result, indent=2))
+    target = "changed-input-rerun.json" if saved.exists() else "changed-input-result.json"
+    (ROOT / "output" / target).write_text(json.dumps(result, indent=2))
 
     def fmt(x):
         return "none" if x is None else f"{x * 100:.2f}%"

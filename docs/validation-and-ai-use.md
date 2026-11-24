@@ -128,7 +128,7 @@ No other windows, universes, objectives or seeds were tried and discarded.
 | Elapsed | 20 seconds, including the venv and the Streamlit install |
 | Second environment | Python 3.10.12 (the Linux VM linked to my Mac): 20 / 20 pass, identical output hashes |
 | First failure found (earlier build) | On Python 3.10, `test_zero_volatility_refused` failed and `results.json` differed in the 17th digit, because Python 3.12 changed how `sum()` adds floats. Fix: every sum uses `math.fsum`, the zero-volatility check uses a 1e-12 tolerance, and the JSON is rounded to 10 decimals. Earlier, tests were not discovered without `tests/__init__.py`; also fixed |
-| Still to do (student) | Repeat the README-only run on your own Mac and record the result here: ________ |
+| Student's own Mac (2026-11-23, Anaconda Python 3.11) | **First failure:** running `pip install -r requirements.txt` in Anaconda's base environment upgraded numpy, and Anaconda's older pandas then failed with `ValueError: numpy.dtype size changed, may indicate binary incompatibility`. **Resolution:** followed the README's venv steps (`python3 -m venv .venv`, `source .venv/bin/activate`, `pip install -r requirements.txt`). `streamlit run app.py` then opened, and the search-cap (100% → FAIL) and signal (2022-10 → REVIEW) controls worked. **Limitation → action:** the README's setup uses a fresh venv; installing into a shared Anaconda base environment is not supported |
 
 ## 8. Limitations that drive the action
 
@@ -266,8 +266,8 @@ I recommend keeping the **PILOT** decision. The tighter 30% cap reduces concentr
 | 11-23 | Proposed the holdout design, decision rule, bootstrap and stress tests | Rule written into code before the holdout ran; holdout isolation unit test | **Accepted** |
 | 11-23 | Labelled the capped mix "lowest-risk" | Out-of-sample volatility 18.55% vs equal weight's 15.97% | **Rejected** as a basis for adoption. This is the main AI-output check (Video 1) |
 | 11-23 | Added the inverse-volatility baseline, verdicts naming the failed rule, the point-in-time signal and its data card, the cap stress, and the stop condition. Rebuilt the app to show them, after reading the live Project 2 brief | 4 new unit tests (20 total); signal recomputed independently in pandas; AppTest; all earlier numbers unchanged | **Accepted after checks** |
-| 11-23 | Drafted the README, memo, this record and the three video scripts | I checked every number against `output/visible-output.md` | **Modified** — student edits: ________ |
+| 11-23 | Drafted the README, memo, this record and the three video scripts | Claude traced all 41 percentage figures in the documents to `output/visible-output.md` / `results.json` with a script (none untraceable); student review below | **Modified** — student edits: I wrote the Step 2 prediction with AI off and completed the Step 6 reconciliation myself. After comparing my predictions with the actual results, I corrected the portfolio weights assessment from "Matched" to "Partly Matched" (commit `8c4d735`). |
 
 **Not done by AI:** the Locked Changed-Input prediction and its reconciliation, recording the videos, and correcting the transcripts.
 
-**Student review:** ________ (list what you re-checked yourself and any edits).
+**Student review:** I reviewed the calculations, compared the predictions against the actual portfolio results, and checked that the final assessment accurately reflected the changes in weights, returns, volatility, and the PILOT decision.

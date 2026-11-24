@@ -1,2 +1,25 @@
-REPLACE THIS FILE with the corrected YouTube captions/transcript of the Video 2 you actually recorded.
-Correct tickers (XLE, XOP, AMLP, ICLN, NLR), finance terms, names and numbers. Do not paste the script.
+FIN439 Project 2 – Video 2 – Codebase Walkthrough – Eric Boyd
+https://www.youtube.com/watch?v=fwdjDx8oBBI  (5:12)
+Corrected from YouTube automatic captions, 2026-11-23. Filler words ("uh", "um") removed; tickers, names and terms corrected; [brackets] = a word the captions missed or misheard.
+
+Hey everyone, this is Eric Boyd. This is my second video for Project 2, the code walkthrough. Two statements: I used Claude to write the code, run the tests and draft some documents at my direction, and the analysis and the decision are mine. This is educational, not investment advice.
+
+So we have four Python files. portfolio.py holds all the finance math. analysis.py runs the study. changed_input.py runs my locked prediction test. app.py is the Streamlit app. The app and analysis import the math, so there's only one version of every calculation.
+
+The data: 61 month-end adjusted prices for five energy ETFs from Yahoo Finance, downloaded October 22nd, with the file's hash recorded so anyone can confirm it. Everything is as of September 30th, 2026.
+
+So at the top of portfolio.py is the mandate: an 8% expected return on line 23, and a 40% maximum in any one fund on line 24. If you look at line 36, read_prices refuses bad data, like out-of-order dates or zero prices. estimate, on line 90, annualizes: the average monthly return times 12, the standard deviation times root 12, plus correlations.
+
+If we go to line 177, this is my fix for my Lab 15 mistake, where the app recommended 70% AMLP and broke my 40% cap. So now the cap is applied while portfolios are generated. Line 184 turns 40% into a maximum number of 5-point steps, so an over-cap portfolio can't even be created. That cuts the 10,626 portfolios to 3,951, and every one clears that 8% minimum return. So the return target never constrains the answer.
+
+If you look at line 199, lowest_risk_mix keeps the allowed portfolio with the lowest volatility. The mandate check, on line 164, tests each rule and names any that failed. That's the verdict in the app. If we look at lines 231 and 236: two baselines, equal weight, which is also my benchmark, and inverse volatility. Then risk_signal, my point-in-time signal. It's a trailing 12-month volatility. It only uses prices dated on or before the as-of month, so it can't see the future.
+
+Let's go back up to line 24. analysis.py sets up the out-of-sample test. The first 24 months choose the portfolio and the last 36 months test it. The decision rule is written here, before I ran the test. Lines 265 to 277 apply it, and they only adopt if the portfolio beats equal weight on both volatility and drawdown out of sample. It didn't, so the output stays at pilot.
+
+Let's go to the terminal. As we can see here, all 20 tests passed, including known answers I can do by hand. The test on line 84 triples every price [after] September 2023, and the September 2023 signal doesn't move. So it's truly point-in-time.
+
+This is my Locked Changed-Input Record, testing my highest-risk assumption, the 40% cap, with AI off. I predicted what would happen if the cap dropped to 30%. I committed the prediction at around 4:36 p.m., and only then ran the test. In the results, AMLP fell from 40 to 30%, and all 10 points went to XLE. I predicted XLE and NLR, because I reasoned from the returns, but the search minimizes volatility. Volatility rose in sample but fell out of sample, and the decision stayed pilot.
+
+If we go back to the terminal: after I ran it, running it again just shows the saved, locked result. It never overwrites the evidence.
+
+To reproduce: create a virtual environment, install the requirements, and run python analysis.py. My clean run produced identical outputs. The main unresolved risk is the volatility estimates: the ones the search depends on didn't hold up out of sample. That's why this is a pilot, not an adoption. Thank you.
